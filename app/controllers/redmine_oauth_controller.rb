@@ -52,7 +52,7 @@ class RedmineOauthController < AccountController
                .first_or_initialize
     if user.new_record?
       # Self-registration off
-      redirect_to(home_url) && return unless Setting.self_registration?
+      redirect_to(home_url) && return unless Setting.self_registration? && !Setting.plugin_redmine_omniauth_azure[:azure_oauth_injection]
       # Create on the fly
       user.firstname, user.lastname = info["name"].split(' ') unless info['name'].nil?
       user.firstname ||= info["name"]
@@ -64,18 +64,24 @@ class RedmineOauthController < AccountController
       user.random_password
       user.register
 
-      case Setting.self_registration
-      when '1'
-        register_by_email_activation(user) do
-          onthefly_creation_failed(user)
-        end
-      when '3'
+      if (Setting.plugin_redmine_omniauth_azure[:azure_oauth_injection])
         register_automatically(user) do
           onthefly_creation_failed(user)
         end
       else
-        register_manually_by_administrator(user) do
-          onthefly_creation_failed(user)
+        case Setting.self_registration
+        when '1'
+          register_by_email_activation(user) do
+            onthefly_creation_failed(user)
+          end
+        when '3'
+          register_automatically(user) do
+            onthefly_creation_failed(user)
+          end
+        else
+          register_manually_by_administrator(user) do
+            onthefly_creation_failed(user)
+          end
         end
       end
     else

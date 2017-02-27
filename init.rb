@@ -13,6 +13,7 @@ Redmine::Plugin.register :redmine_omniauth_azure do
     :client_id => '',
     :client_secret => '',
     :azure_oauth_authentication => false,
+    :azure_oauth_injection => false,
     :allowed_domains => ''
   }, :partial => 'settings/azure_settings'
 end
