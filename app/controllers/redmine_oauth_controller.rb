@@ -22,7 +22,7 @@ class RedmineOauthController < AccountController
       token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => oauth_azure_callback_url, :resource => "00000002-0000-0000-c000-000000000000")
       user_info = JWT.decode(token.token, nil, false)
       logger.error user_info
-      
+
       email = user_info.first['unique_name']
 
       if email
@@ -58,7 +58,8 @@ class RedmineOauthController < AccountController
       user.firstname ||= info["name"]
       user.lastname ||= info["name"]
       user.mail = email
-      user.login = info['login']
+      user.login = email
+      #user.login = info['login']
       user.login ||= [user.firstname, user.lastname]*"."
       user.random_password
       user.register
