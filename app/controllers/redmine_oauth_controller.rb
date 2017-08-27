@@ -6,7 +6,7 @@ class RedmineOauthController < AccountController
   include Helpers::MailHelper
   include Helpers::Checker
   def oauth_azure
-    if Setting.plugin_redmine_omniauth_azure[:azure_oauth_authentication]
+    if Setting.plugin_redmine_omniauth_azure['azure_oauth_authentication']
       session[:back_url] = params[:back_url]
       redirect_to oauth_client.auth_code.authorize_url(:redirect_uri => oauth_azure_callback_url, :scope => scopes)
     else
@@ -19,7 +19,7 @@ class RedmineOauthController < AccountController
       flash[:error] = l(:notice_access_denied)
       redirect_to signin_path
     else
-      token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => oauth_azure_callback_url, :resource => "00000002-0000-0000-c000-000000000000")
+      token = oauth_client.auth_code.get_token(params[:code], :redirect_uri => oauth_azure_callback_url, :resource => '00000002-0000-0000-c000-000000000000')
       user_info = JWT.decode(token.token, nil, false)
       logger.error user_info
 
@@ -52,19 +52,17 @@ class RedmineOauthController < AccountController
                .first_or_initialize
     if user.new_record?
       # Self-registration off
-      redirect_to(home_url) && return unless Setting.self_registration? && !Setting.plugin_redmine_omniauth_azure[:azure_oauth_injection]
+      redirect_to(home_url) && return unless Setting.self_registration? && !Setting.plugin_redmine_omniauth_azure['azure_oauth_injection']
       # Create on the fly
-      user.firstname, user.lastname = info["name"].split(' ') unless info['name'].nil?
-      user.firstname ||= info["name"]
-      user.lastname ||= info["name"]
+      user.firstname, user.lastname = info['name'].split(' ') unless info['name'].nil?
+      user.firstname ||= info['name']
+      user.lastname ||= info['name']
       user.mail = email
       user.login = email
-      #user.login = info['login']
-      user.login ||= [user.firstname, user.lastname]*"."
       user.random_password
       user.register
 
-      if (Setting.plugin_redmine_omniauth_azure[:azure_oauth_injection])
+      if (Setting.plugin_redmine_omniauth_azure['azure_oauth_injection'])
         register_automatically(user) do
           onthefly_creation_failed(user)
         end
@@ -95,10 +93,10 @@ class RedmineOauthController < AccountController
   end
 
   def oauth_client
-    @client ||= OAuth2::Client.new(settings[:client_id], settings[:client_secret],
+    @client ||= OAuth2::Client.new(settings['client_id'], settings['client_secret'],
       :site => 'https://login.windows.net',
-      :authorize_url => '/' + settings[:tenant_id] + '/oauth2/authorize',
-      :token_url => '/' + settings[:tenant_id] + '/oauth2/token')
+      :authorize_url => '/' + settings['tenant_id'] + '/oauth2/authorize',
+      :token_url => '/' + settings['tenant_id'] + '/oauth2/token')
   end
 
   def settings
