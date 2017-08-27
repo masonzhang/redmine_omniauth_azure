@@ -4,10 +4,3 @@ en:
   notice_azure_access_denied: "You must allow to use you Azure credentials to enter this site."
   login_via_azure: "Login via Azure"
   notice_no_verified_email_we_could_use: "No verified email provided by Azure, go and verify you email address on azure.com"
-
-zh:
-  notice_unable_to_obtain_azure_credentials: "从 Azure 获取用户信息失败。"
-  notice_domain_not_allowed: "你不能从 %{domain} 域登录。"
-  notice_azure_access_denied: "你必须授权本站从 Azure 获取你的用户信息。"
-  login_via_azure: "通过 Azure 登录"
-  notice_no_verified_email_we_could_use: "Azure 未返回有效邮箱地址，请前往 azure.com 验证邮箱。"
