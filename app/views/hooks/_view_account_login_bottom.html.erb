@@ -1,0 +1,9 @@
+<% if Setting.plugin_redmine_omniauth_azure['azure_oauth_authentication'] %>
+  <%= stylesheet_link_tag 'login', :plugin => 'redmine_omniauth_azure' %>
+
+  <div id="azure-login">
+    <%= link_to oauth_azure_path(:back_url => back_url) do %>
+      <%= content_tag :div, l(:login_via_azure), :class => 'button-login-text' %>
+    <% end %>
+  </div>
+<% end %>
