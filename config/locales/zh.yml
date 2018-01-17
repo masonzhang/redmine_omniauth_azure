@@ -2,5 +2,9 @@ zh:
   notice_unable_to_obtain_azure_credentials: "从 Azure 获取用户信息失败。"
   notice_domain_not_allowed: "你不能从 %{domain} 域登录。"
   notice_azure_access_denied: "你必须授权本站从 Azure 获取你的用户信息。"
+<<<<<<< HEAD
   login_via_azure: "通过 公司账号(Microsoft Office 365) 登录"
+=======
+  login_via_azure: "通过 Azure 登录"
+>>>>>>> f6009f680b5d740685016fb4569bdb4eba61008a
   notice_no_verified_email_we_could_use: "Azure 未返回有效邮箱地址，请前往 azure.com 验证邮箱。"

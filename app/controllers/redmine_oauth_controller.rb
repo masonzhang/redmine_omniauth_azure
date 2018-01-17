@@ -46,17 +46,26 @@ class RedmineOauthController < AccountController
   def try_to_login email, info
     params[:back_url] = session[:back_url]
     session.delete(:back_url)
+<<<<<<< HEAD
     logger.error 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa2i11111111111111111111111111'
+=======
+>>>>>>> f6009f680b5d740685016fb4569bdb4eba61008a
 
     user = User.joins(:email_addresses)
                .where('email_addresses.address' => email, 'email_addresses.is_default' => true)
                .first_or_initialize
+<<<<<<< HEAD
     logger.error user
     logger.error 'userxxxxxx'
     if user.new_record?
       logger.error 'bbbbbbb'
       # Self-registration off
       #redirect_to(home_url) && return unless !Setting.plugin_redmine_omniauth_azure['azure_oauth_injection']
+=======
+    if user.new_record?
+      # Self-registration off
+      # redirect_to(home_url) && return unless Setting.self_registration? && !Setting.plugin_redmine_omniauth_azure['azure_oauth_injection']
+>>>>>>> f6009f680b5d740685016fb4569bdb4eba61008a
       # Create on the fly
       user.firstname, user.lastname = info['name'].split(' ') unless info['name'].nil?
       user.firstname ||= info['name']
@@ -67,9 +76,13 @@ class RedmineOauthController < AccountController
       user.register
 
       if (Setting.plugin_redmine_omniauth_azure['azure_oauth_injection'])
+<<<<<<< HEAD
         logger.error '11111111111111111111111111'
         register_automatically(user) do
           logger.error '222222222222222222222'
+=======
+        register_automatically(user) do
+>>>>>>> f6009f680b5d740685016fb4569bdb4eba61008a
           onthefly_creation_failed(user)
         end
       else
